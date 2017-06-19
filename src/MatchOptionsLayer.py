@@ -1,6 +1,7 @@
-from cocos.layer import Layer, director
+from cocos.layer import Layer
 from cocos.menu import Menu, MenuItem
 from cocos.scene import Scene
+from cocos.scenes import *
 
 from src.MatchOptions import MatchOptions
 from src.colors import *
@@ -10,17 +11,21 @@ class OptionsLayer(Layer):
 	def __init__(self, director, previousScene):
 		super(OptionsLayer, self).__init__()
 		self.director = director
-		self.menu = OptionsMenu(self, previousScene, director,"Options")
+		self.previous = previousScene
+		self.menu = OptionsMenu(self, "Options")
 		self.add(self.menu)
-
 
 	def on_quit(self):
 		exit()
 
+	def backToPrevious(self):
+		destScene = Scene(self.previous)
+		self.director.replace(SlideInTTransition(destScene, duration=0.5))
+
+
 class OptionsMenu(Menu):
-	def __init__(self, parent, previousScene, director,title=""):
+	def __init__(self, parent, title=""):
 		super(OptionsMenu, self).__init__(title)
-		self.previous = previousScene
 		self.options = MatchOptions()
 
 		self.font_title['color'] = green
@@ -59,7 +64,7 @@ class OptionsMenu(Menu):
 		pass
 
 	def backToPrevious(self):
-		director.replace(Scene(self.previous))
+		self.parent.backToPrevious()
 
 	def on_quit(self):
 		self.parent.on_quit()

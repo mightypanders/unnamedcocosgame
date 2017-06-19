@@ -1,16 +1,17 @@
 from cocos.layer import Layer
 from cocos.menu import Menu, CENTER, MenuItem
 from cocos.scene import Scene
-from pyglet.window.key import symbol_string
+from cocos.scenes import *
 
 from src.MatchOptionsLayer import OptionsLayer
+from src.SettingsLayer import SettingsLayer
 from src.colors import *
 
 
 class MainMenuLayer(Layer):
 	is_event_handler = True
 
-	def __init__(self, director,previousScene):
+	def __init__(self, director, previousScene):
 		super(MainMenuLayer, self).__init__()
 		self.director = director
 		self.menu = MainMenu(self, self.director, "A New Game")
@@ -20,10 +21,15 @@ class MainMenuLayer(Layer):
 		pass
 
 	def newGame(self):
-		pass
+		destScene = Scene(OptionsLayer(self.director, self.parent))
+		self.changeScene(destScene)
 
 	def settingsOpen(self):
-		self.director.replace(Scene(OptionsLayer(self.director, self.parent)))
+		destScene = Scene(SettingsLayer(self.director, self.parent))
+		self.changeScene(destScene)
+
+	def changeScene(self, destScene):
+		self.director.replace(SlideInBTransition(destScene, duration=0.5))
 
 	def on_quit(self):
 		exit()
