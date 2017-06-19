@@ -8,7 +8,7 @@ from src.MainMenuLayer import MainMenuLayer
 def startroutine():
     director.init()
     print("director started")
-    director.run(Scene(MainMenuLayer(director)))
+    director.run(Scene(MainMenuLayer(director,None)))
 
 if __name__ == '__main__':
     startroutine()
