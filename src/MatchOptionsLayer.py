@@ -1,13 +1,16 @@
 from cocos.layer import Layer
-from cocos.menu import Menu, MenuItem
+from cocos.menu import *
 from cocos.scene import Scene
 from cocos.scenes import *
+from pyglet.window.key import symbol_string
 
 from src.MatchOptions import MatchOptions
 from src.colors import *
 
 
 class OptionsLayer(Layer):
+	is_event_handler = True
+
 	def __init__(self, director, previousScene):
 		super(OptionsLayer, self).__init__()
 		self.director = director
@@ -21,6 +24,15 @@ class OptionsLayer(Layer):
 	def backToPrevious(self):
 		destScene = Scene(self.previous)
 		self.director.replace(SlideInTTransition(destScene, duration=0.5))
+
+	def on_key_press(self, key, modifiers):
+		if symbol_string(key) == 'LEFT':
+			pass
+		if symbol_string(key) == "RIGHT":
+			pass
+		if symbol_string(key) == "ESCAPE":
+			self.backToPrevious()
+		pass
 
 
 class OptionsMenu(Menu):
@@ -46,6 +58,10 @@ class OptionsMenu(Menu):
 			         self.modifymatchcount),
 			MenuItem(self.options.poweruplevelDes + "  " + str(self.options.poweruplevel),
 			         self.modifypoweruplever),
+			ToggleMenuItem(self.options.suddendeathdes, self.togglesuddendeath,
+			               self.options.suddendeath),
+			ToggleMenuItem(self.options.randombombsdes, self.randombombstoggle,
+			               self.options.randombombs),
 			MenuItem("Back", self.backToPrevious)
 		]
 
@@ -68,3 +84,15 @@ class OptionsMenu(Menu):
 
 	def on_quit(self):
 		self.parent.on_quit()
+
+	def togglesuddendeath(self,idx):
+		if self.options.suddendeath == False:
+			self.options.suddendeath = True
+		elif self.options.suddendeath == True:
+			self.options.suddendeath = False
+
+	def randombombstoggle(self,idx):
+		if self.options.randombombs == False:
+			self.options.randombombs = True
+		elif self.options.randombombs == True:
+			self.options.randombombs = False

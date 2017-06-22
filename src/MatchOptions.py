@@ -10,3 +10,7 @@ class MatchOptions():
 		self.matchtimeDes = "Duration of Matches"
 		self.startpowerups = []
 		self.mutators = []
+		self.suddendeathdes = "Sudden Death"
+		self.suddendeath = True
+		self.randombombsdes = "Random Bombs in Sudden Death"
+		self.randombombs = False
