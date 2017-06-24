@@ -4,6 +4,7 @@ from cocos.scene import Scene
 from cocos.scenes import *
 
 from src.MatchOptionsLayer import OptionsLayer
+from src.MenuTemplate import MenuTemplate
 from src.SettingsLayer import SettingsLayer
 from src.colors import *
 
@@ -14,7 +15,7 @@ class MainMenuLayer(Layer):
 	def __init__(self, director, previousScene):
 		super(MainMenuLayer, self).__init__()
 		self.director = director
-		self.menu = MainMenu(self, self.director, "A New Game")
+		self.menu = MainMenu(self, title="A New Game")
 		self.add(self.menu)
 
 	def on_key_press(self, key, modifiers):
@@ -35,22 +36,9 @@ class MainMenuLayer(Layer):
 		exit()
 
 
-class MainMenu(Menu):
-	def __init__(self, parent, director, title=""):
-		super(MainMenu, self).__init__(title)
-		self.parent = parent
-		self.director = director
-		self.font_title['color'] = green
-		self.font_title['font_size'] = 50
-
-		self.font_item['font_size'] = 14
-		self.font_item['color'] = white
-
-		self.font_item_selected['font_size'] = 18
-		self.font_item_selected['color'] = yellow
-
-		self.menu_halign = CENTER
-		self.menu_valign = CENTER
+class MainMenu(MenuTemplate):
+	def __init__(self, parent, title):
+		super(MainMenu, self).__init__(parent,title)
 
 		self.menu_items = [
 			MenuItem("New Game", self.parent.newGame),
@@ -59,5 +47,3 @@ class MainMenu(Menu):
 
 		self.create_menu(self.menu_items)
 
-	def on_quit(self):
-		self.parent.on_quit()

@@ -4,7 +4,9 @@ from cocos.scene import Scene
 from cocos.scenes import *
 from pyglet.window.key import symbol_string
 
+from src.AudioHandler import Audio
 from src.MatchOptions import MatchOptions
+from src.MenuTemplate import MenuTemplate
 from src.colors import *
 
 
@@ -32,32 +34,30 @@ class OptionsLayer(Layer):
 			pass
 		if symbol_string(key) == "ESCAPE":
 			self.backToPrevious()
+		if symbol_string(key) == "SPACE":
+			self.print_options()
+		pass
+
+	def print_options(self):
 		pass
 
 
-class OptionsMenu(Menu):
-	def __init__(self, parent, title=""):
-		super(OptionsMenu, self).__init__(title)
+class OptionsMenu(MenuTemplate):
+	def __init__(self, parent, title):
+		super(OptionsMenu, self).__init__(parent,title)
 		self.options = MatchOptions()
 
-		self.font_title['color'] = green
-		self.font_title['font_size'] = 50
-
-		self.font_item['font_size'] = 14
-		self.font_item['color'] = white
-
-		self.font_item_selected['font_size'] = 18
-		self.font_item_selected['color'] = yellow
-
 		self.menu_items = [
-			MenuItem(self.options.playercountDes + "  " + str(self.options.playercount),
-			         self.modifiyplayercount),
-			MenuItem(self.options.matchtimeDes + "  " + str(self.options.matchtime),
-			         self.modifymatchtime),
-			MenuItem(self.options.matchcountDes + "  " + str(self.options.matchcount),
-			         self.modifymatchcount),
-			MenuItem(self.options.poweruplevelDes + "  " + str(self.options.poweruplevel),
-			         self.modifypoweruplever),
+			MultipleMenuItem(self.options.playercountDes, self.modifiyplayercount,
+			                 self.options.playercount),
+			MultipleMenuItem(self.options.matchtimeDes, self.modifymatchtime,
+			                 self.options.matchtime),
+			MultipleMenuItem(self.options.matchcountDes, self.modifymatchtime,
+			                 self.options.matchcount),
+			MultipleMenuItem(self.options.poweruplevelDes, self.modifypoweruplever,
+			                 self.options.poweruplevel),
+			MultipleMenuItem(self.options.poweruplevelDes, self.poweruplevelmodif,
+			                 self.options.poweruplevel),
 			ToggleMenuItem(self.options.suddendeathdes, self.togglesuddendeath,
 			               self.options.suddendeath),
 			ToggleMenuItem(self.options.randombombsdes, self.randombombstoggle,
@@ -67,32 +67,30 @@ class OptionsMenu(Menu):
 
 		self.create_menu(self.menu_items)
 
-	def modifiyplayercount(self):
+	def modifiyplayercount(self, idx):
+		pass
+	def modifymatchcount(self, idx):
 		pass
 
-	def modifymatchcount(self):
+	def modifymatchtime(self, idx):
 		pass
 
-	def modifymatchtime(self):
+	def modifypoweruplever(self, idx):
 		pass
 
-	def modifypoweruplever(self):
+	def togglesuddendeath(self, idx):
+		# if self.options.suddendeath == False:
+		# 	self.options.suddendeath = True
+		# elif self.options.suddendeath == True:
+		# 	self.options.suddendeath = False
 		pass
 
-	def backToPrevious(self):
-		self.parent.backToPrevious()
+	def randombombstoggle(self, idx):
+		# if self.options.randombombs == False:
+		# 	self.options.randombombs = True
+		# elif self.options.randombombs == True:
+		# 	self.options.randombombs = False
+		pass
 
-	def on_quit(self):
-		self.parent.on_quit()
-
-	def togglesuddendeath(self,idx):
-		if self.options.suddendeath == False:
-			self.options.suddendeath = True
-		elif self.options.suddendeath == True:
-			self.options.suddendeath = False
-
-	def randombombstoggle(self,idx):
-		if self.options.randombombs == False:
-			self.options.randombombs = True
-		elif self.options.randombombs == True:
-			self.options.randombombs = False
+	def poweruplevelmodif(self, idx):
+		pass
