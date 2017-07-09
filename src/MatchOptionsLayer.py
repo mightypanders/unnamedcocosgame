@@ -4,10 +4,8 @@ from cocos.scene import Scene
 from cocos.scenes import *
 from pyglet.window.key import symbol_string
 
-from src.AudioHandler import Audio
 from src.MatchOptions import MatchOptions
 from src.MenuTemplate import MenuTemplate
-from src.colors import *
 
 
 class OptionsLayer(Layer):
@@ -17,7 +15,7 @@ class OptionsLayer(Layer):
 		super(OptionsLayer, self).__init__()
 		self.director = director
 		self.previous = previousScene
-		self.menu = OptionsMenu(self, "Options")
+		self.menu = OptionsMenu(self, "Match Options")
 		self.add(self.menu)
 
 	def on_quit(self):
@@ -25,7 +23,7 @@ class OptionsLayer(Layer):
 
 	def backToPrevious(self):
 		destScene = Scene(self.previous)
-		self.director.replace(SlideInTTransition(destScene, duration=0.5))
+		self.director.replace(SlideInTTransition(destScene, duration=self.menu.slideDuration))
 
 	def on_key_press(self, key, modifiers):
 		if symbol_string(key) == 'LEFT':
@@ -44,20 +42,19 @@ class OptionsLayer(Layer):
 
 class OptionsMenu(MenuTemplate):
 	def __init__(self, parent, title):
-		super(OptionsMenu, self).__init__(parent,title)
+		super(OptionsMenu, self).__init__(parent, title)
 		self.options = MatchOptions()
 
 		self.menu_items = [
+			MenuItem("PLAY", self.startgame),
 			MultipleMenuItem(self.options.playercountDes, self.modifiyplayercount,
-			                 self.options.playercount),
+			                 self.options.playercountrange),
 			MultipleMenuItem(self.options.matchtimeDes, self.modifymatchtime,
-			                 self.options.matchtime),
-			MultipleMenuItem(self.options.matchcountDes, self.modifymatchtime,
-			                 self.options.matchcount),
-			MultipleMenuItem(self.options.poweruplevelDes, self.modifypoweruplever,
-			                 self.options.poweruplevel),
-			MultipleMenuItem(self.options.poweruplevelDes, self.poweruplevelmodif,
-			                 self.options.poweruplevel),
+			                 self.options.matchtimerange),
+			MultipleMenuItem(self.options.matchcountDes, self.modifymatchcount,
+			                 self.options.matchcountrange),
+			MultipleMenuItem(self.options.poweruplevelDes, self.modifypoweruplevel,
+			                 self.options.poweruplevelrange),
 			ToggleMenuItem(self.options.suddendeathdes, self.togglesuddendeath,
 			               self.options.suddendeath),
 			ToggleMenuItem(self.options.randombombsdes, self.randombombstoggle,
@@ -67,30 +64,23 @@ class OptionsMenu(MenuTemplate):
 
 		self.create_menu(self.menu_items)
 
+	def startgame(self):
+		print(self.options.toString())
+
 	def modifiyplayercount(self, idx):
-		pass
+		self.options.playercount = self.options.playercountrange[idx]
+
 	def modifymatchcount(self, idx):
-		pass
+		self.options.matchcount = self.options.matchcountrange[idx]
 
 	def modifymatchtime(self, idx):
-		pass
+		self.options.matchtime = self.options.matchtimerange[idx]
 
-	def modifypoweruplever(self, idx):
-		pass
+	def modifypoweruplevel(self, idx):
+		self.options.poweruplevel = self.options.poweruplevelrange[idx]
 
 	def togglesuddendeath(self, idx):
-		# if self.options.suddendeath == False:
-		# 	self.options.suddendeath = True
-		# elif self.options.suddendeath == True:
-		# 	self.options.suddendeath = False
-		pass
+		self.options.suddendeath = bool(idx)
 
 	def randombombstoggle(self, idx):
-		# if self.options.randombombs == False:
-		# 	self.options.randombombs = True
-		# elif self.options.randombombs == True:
-		# 	self.options.randombombs = False
-		pass
-
-	def poweruplevelmodif(self, idx):
-		pass
+		self.options.randombombs = bool(idx)

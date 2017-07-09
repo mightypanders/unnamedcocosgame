@@ -23,8 +23,10 @@ class MenuTemplate(Menu):
 		self.menu_valign = CENTER
 
 		self.select_sound = Audio("../ast/menu_selection.ogg")
-		self.activate_sound = Audio("../ast/click.wav")
+		self.activate_sound = Audio("../ast/click.ogg")
 
+
+		self.slideDuration = 0.3
 	def backToPrevious(self):
 		self.parent.backToPrevious()
 
