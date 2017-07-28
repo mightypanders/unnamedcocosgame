@@ -6,8 +6,9 @@ from src.colors import green, white, yellow
 
 class MenuTemplate(Menu):
 	is_event_handler = True
-	def __init__(self,parent,title=""):
-		super(MenuTemplate,self).__init__(title=title)
+
+	def __init__(self, parent, title=""):
+		super(MenuTemplate, self).__init__(title=title)
 		self.parent = parent
 
 		self.font_title['color'] = green
@@ -25,8 +26,8 @@ class MenuTemplate(Menu):
 		self.select_sound = Audio("../ast/menu_selection.ogg")
 		self.activate_sound = Audio("../ast/click.ogg")
 
-
 		self.slideDuration = 0.3
+
 	def backToPrevious(self):
 		self.parent.backToPrevious()
 

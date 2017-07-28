@@ -25,11 +25,10 @@ class SettingsLayer(Layer):
 
 class SettingsMenu(MenuTemplate):
 	def __init__(self, parent, title):
-		super(SettingsMenu, self).__init__(parent,title)
+		super(SettingsMenu, self).__init__(parent, title)
 
 		self.menu_items = [
 			MenuItem("Nothing to see here yet", self.backToPrevious),
 			MenuItem("Back", self.backToPrevious)
 		]
 		self.create_menu(self.menu_items)
-
