@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("/home/markus/development/unnamedgame")
+#sys.path.append("/home/markus/dev/unnamedcocosgame")
 from cocos.audio.pygame import mixer
 from cocos.director import director
 from cocos.scene import Scene
